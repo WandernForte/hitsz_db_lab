@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.H": "c",
+        "*.tcc": "c"
+    }
+}
