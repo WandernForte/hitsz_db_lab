@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
+#include <windows.h>
 #include"utils.h"
 /**
  * @brief  线性关系搜索选择算法
@@ -56,7 +58,9 @@ void LinearRelationSelect(int targetVal, int targetRel, Buffer* buf){
 
 void TPMMSort(int targetRel, Buffer* buf){
     //stage1:
+    printf("Sorting...\n");
     int init_w_blk=301;
+    int w_blk=0;
     int init_addr=0;
     int lmt_addr=16;
     char str[5];
@@ -70,19 +74,33 @@ void TPMMSort(int targetRel, Buffer* buf){
         init_addr=0;
         lmt_addr=16;
     }
-    //首先需要清空buf
-    //块内快速排序
-    // tuple2d recordlist[TUPLE_PER_BLOCK];
+    //首先清空整个缓冲区
+    freeAllBlockInBuffer(buf);
+    //子集合内快速排序
     for(int addr=init_addr;addr<lmt_addr;addr++){
         unsigned char *blk=readBlockFromDisk(addr+1, buf);
+        Sleep(10);
         printf("Reading Block:%d...\n", addr+1);
+        if(addr%8==7){
+        quick_sort(buf->data, 0, buf->numAllBlk*(TUPLE_PER_BLOCK)-1);
+
+        for(int blkid=0;blkid < buf->numAllBlk;blkid++){
+            writeBlockToDisk((buf->data+blkid),init_w_blk+w_blk,buf);
+            // buf->data=buf->data++;
+            blk++;
+        }
+        freeAllBlockInBuffer(buf);
+        }
         
-        quick_sort(blk, 0, TUPLE_PER_BLOCK-1);
-        printf("blk:%s\n",blk);
-        showBlock(blk);
-        writeBlockToDisk(blk,init_w_blk+addr, buf);
-        freeBlockInBuffer(blk,buf);
     }
+        for(int addr=init_addr;addr<lmt_addr;addr++){
+            unsigned char *blk=readBlockFromDisk(init_w_blk+addr, buf);
+            showBlock(blk);
+            if(buf->numFreeBlk==0){
+                freeAllBlockInBuffer(buf);
+            }
+        }
+    
 }
 void quick_sort(unsigned char* blk, int l, int r)
 {

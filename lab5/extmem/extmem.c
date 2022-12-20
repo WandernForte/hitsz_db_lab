@@ -66,13 +66,9 @@ void freeBlockInBuffer(unsigned char *blk, Buffer *buf)
     buf->numFreeBlk++;
 }
 void freeAllBlockInBuffer(Buffer *buf){
-    *(buf->data-1)=BLOCK_AVAILABLE;
-    buf->numFreeBlk++;
-    if(buf->numFreeBlk==buf->numAllBlk){
-        return;
-    }else{
-        freeAllBlockInBuffer(buf);
-    }
+for(int i=0;i<buf->numAllBlk;i++){
+    freeBlockInBuffer(buf->data,buf);
+}
 }
 int dropBlockOnDisk(unsigned int addr)
 {
@@ -98,7 +94,6 @@ unsigned char *readBlockFromDisk(unsigned int addr, Buffer *buf)
     if (buf->numFreeBlk == 0)
     {
         perror("Buffer Overflows!\n");
-        // freeAllBlockInBuffer(buf);
         return NULL;
     }
 
@@ -131,7 +126,7 @@ unsigned char *readBlockFromDisk(unsigned int addr, Buffer *buf)
         *bytePtr = ch;
         bytePtr++;
     }
-
+    // if(fp)
     fclose(fp);
     buf->numFreeBlk--;
     buf->numIO++;
