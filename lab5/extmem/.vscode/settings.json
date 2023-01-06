@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.H": "c",
-        "*.tcc": "c"
-    },
-    "C_Cpp.errorSquiggles": "enabled"
-}

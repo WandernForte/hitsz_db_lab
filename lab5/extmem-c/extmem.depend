@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1671547239 source:e:\hitsz_db_lab\lab5\extmem\extmem.c
+	<stdlib.h>
+	<stdio.h>
+	"extmem.h"
+	<string.h>
+
+1671376860 e:\hitsz_db_lab\lab5\extmem\extmem.h
+
+1671613685 source:e:\hitsz_db_lab\lab5\extmem\test.c
+	<stdlib.h>
+	<stdio.h>
+	"extmem.h"
+	"utils.h"
+
+1671613674 e:\hitsz_db_lab\lab5\extmem\utils.h
+	"extmem.h"
+	<stdbool.h>
+
+1671614004 source:e:\hitsz_db_lab\lab5\extmem\utils.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<math.h>
+	"utils.h"
+
